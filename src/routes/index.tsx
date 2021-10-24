@@ -4,7 +4,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
 export function Routes() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   
   return (
     <BrowserRouter>
