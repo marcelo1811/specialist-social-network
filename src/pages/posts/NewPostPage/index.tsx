@@ -17,6 +17,7 @@ enum fieldNames {
 };
 
 const maxContentLength = 10; 
+const maxImages = 10;
 
 function NewPostPage() {
   const [content, setContent] = useState<string>('');
@@ -58,9 +59,10 @@ function NewPostPage() {
       const url = URL.createObjectURL(file)
       return {...file, url};
     })
-    if (files.length <= 5) {
+    if (files.length <= maxImages) {
       setPhotos(files);
     } else {
+      setPhotos([]);
       photoRef.current.value = '';
     }
   }
@@ -88,14 +90,17 @@ function NewPostPage() {
         </Select>
       </BaseFormControl>
 
-      {photos.length > 0 && <ImagePreviewer images={photos} />}
+      <Box bg='green'>
+        {photos.length > 0 && <ImagePreviewer images={photos} />}
+      </Box>
+
       <BaseFormControl label='Photo'>
         <Input
           ref={photoRef}
           type='file' height={12} padding='10px' multiple
           onChange={(e) => handleChangePhotos(e.target.files)}
         />
-        <FormHelperText>Máximo de 5 arquivos</FormHelperText>
+        <FormHelperText>Máximo de {maxImages} arquivos</FormHelperText>
       </BaseFormControl>
 
       <Button colorScheme='teal'>

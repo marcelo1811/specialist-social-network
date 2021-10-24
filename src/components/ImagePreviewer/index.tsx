@@ -18,17 +18,19 @@ export function ImagePreviewer({ images }: IImagePreviewerProps) {
 
   return (
     <>
-      <Box display='flex' overflowX='scroll'>
+      <Box display='flex' flexDir='row' height='200px' width='100%'>
         {images.map((image: any, index: number) => (
           <Box
-            m={2} display='flex' flexDir='column' justifyContent='center' alignItems='center'
+            bg='blackAlpha.100'
+            style={{width: '500px'}}
+            m={2}
             _hover={{
               cursor: 'pointer',
               opacity: 0.6,
             }}
             onClick={() => handleClickImage(image)}
           >
-            <Image src={image.url} fit='contain' boxSize='sm' width='150px' />
+            <Image src={image.url} height='200px' fit='contain'/>
           </Box>
         ))}
       </Box>
