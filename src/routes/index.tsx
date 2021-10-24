@@ -1,12 +1,16 @@
 import { AppRoutes } from "./app.routes";
 import { AuthRoutes } from "./auth.routes";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
 export function Routes() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   
   return (
-    isAuthenticated
-    ? <AppRoutes />
-    : <AuthRoutes />
+    <BrowserRouter>
+      {isAuthenticated
+      ? <AppRoutes />
+      : <AuthRoutes />}
+    </BrowserRouter>
   )
 }
