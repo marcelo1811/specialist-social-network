@@ -4,31 +4,32 @@ import { Input } from "@chakra-ui/input";
 import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Field, Form, Formik } from "formik";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "config/firebase";
 import { useState } from "react";
 
 enum FieldNames {
   Email = 'email',
   Name = 'name',
   Speciality = 'speciality',
+  Password = 'password',
 }
 
-function LoginPage() {
-  // const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [speciality, setSpeciality] = useState<string>('');
+function SignUpPage() {
+  const [user, loading, error] = useAuthState(auth);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleChange = (e: any, field: string) => {
-    const setFields: any = {
-      // [FieldNames.Name]: (value: string) => setName(value),
-      [FieldNames.Email]: (value: string) => setEmail(value),
-      [FieldNames.Speciality]: (value: string) => setSpeciality(value),
+  const handleSubmit = async (values: any, actions: any) => {
+    setIsLoading(true);
+    try {
+      const { email, password } = values;
+      await createUserWithEmailAndPassword(auth, email, password)
+    } catch (err) {
+      console.log("🚀 ~ file: index.tsx ~ line 25 ~ handleSubmit ~ err", err)
+    } finally {
+      setIsLoading(false);
     }
-
-    setFields[field](e.target.value)
-  }
-
-  const handleSubmit = (values: any, actions: any) => {
-    console.log("🚀 ~ file: index.tsx ~ line 39 ~ handleSubmit ~ values", values)
   }
 
   const validatePresence = (value: string) => {
@@ -40,7 +41,7 @@ function LoginPage() {
   return (
     <Box>
       <Container>
-        <Heading>Página de login</Heading>
+        <Heading>Página de cadastro</Heading>
         <Box>
           <Formik
             initialValues={{}}
@@ -65,6 +66,15 @@ function LoginPage() {
                     </FormControl>
                   )}
                 </Field>
+                <Field name={FieldNames.Password} validate={validatePresence}>
+                  {({ field, form }: any) => (
+                    <FormControl isInvalid={form.errors.password && form.touched.password}>
+                      <FormLabel htmlFor={FieldNames.Password}>Senha</FormLabel>
+                      <Input {...field} placeholder='Senha' type='password' />
+                      <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
                 <Field name={FieldNames.Speciality} validate={validatePresence}>
                   {({ field, form }: any) => (
                     <FormControl isInvalid={form.errors.speciality && form.touched.speciality}>
@@ -81,8 +91,9 @@ function LoginPage() {
                   mt={4}
                   colorScheme="teal"
                   type='submit'
+                  isLoading={isLoading}
                 >
-                  Login
+                  Cadastrar
                 </Button>
               </Form>
             )}
@@ -93,4 +104,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage;
+export default SignUpPage;
