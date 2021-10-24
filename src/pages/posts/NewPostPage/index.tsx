@@ -14,18 +14,38 @@ enum fieldNames {
   Photo = 'photo'
 };
 
+const maxContentLength = 10; 
+
 function NewPostPage() {
   const [content, setContent] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
   const [photo, setPhoto] = useState<string>('');
   
+  const validateContent = (content: string) => {
+    if (content.length > maxContentLength) return false;
+    return true;
+  }
+
   const handleChangeInput = (value: any, field: string) => {
-    const functionByField: any = {
+    let isValid = true;
+
+    const validateByField: any = {
+      [fieldNames.Content]: () => validateContent(value),
+    }
+  
+    const setFuntionsByField: any = {
       [fieldNames.Content]: () => setContent(value),
       [fieldNames.Subject]: () => setSubject(value),
     }
     
-    functionByField[field]();
+    const validateFieldFunction = validateByField[field];
+    if (validateFieldFunction) {
+      isValid = validateFieldFunction();
+    }
+
+    if (isValid) {
+      setFuntionsByField[field]();
+    }
   }
 
   return (
@@ -34,7 +54,9 @@ function NewPostPage() {
       <BaseFormControl label='Conteúdo'>
         <Textarea placeholder="Compartilhe o que você está pensando"
           onChange={(e) => handleChangeInput(e.target.value, fieldNames.Content)}
+          value={content}
         />
+        <FormHelperText>{maxContentLength - content.length} caractéres restantes</FormHelperText>
       </BaseFormControl>
 
       <BaseFormControl
@@ -42,6 +64,7 @@ function NewPostPage() {
         <Select
           placeholder="Selecione um assunto" 
           onChange={(e) => handleChangeInput(e.target.value, fieldNames.Subject)}
+          value={subject}
         >
           <option>Tecnologia</option>
           <option>Marketing</option>

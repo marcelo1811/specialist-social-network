@@ -36,6 +36,7 @@ function Navbar({ user }: INavbarProps) {
 
   const handleLogout = () => {
     auth.signOut();
+    history.push(routes.login);
   }
 
   return (
