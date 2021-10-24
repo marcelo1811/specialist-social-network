@@ -5,20 +5,18 @@ import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Field, Form, Formik } from "formik";
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "config/firebase";
 import { useState } from "react";
-import { useHistory } from "react-router";
 import { routes } from "constants/routes";
+import { useHistory } from "react-router";
 
 enum FieldNames {
   Email = 'email',
-  Name = 'name',
-  Speciality = 'speciality',
   Password = 'password',
 }
 
-function SignUpPage() {
+function LoginPage() {
   const [user, loading, error] = useAuthState(auth);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const history = useHistory();
@@ -27,7 +25,7 @@ function SignUpPage() {
     setIsLoading(true);
     try {
       const { email, password } = values;
-      await createUserWithEmailAndPassword(auth, email, password)
+      await signInWithEmailAndPassword(auth, email, password)
     } catch (err) {
       console.log("🚀 ~ file: index.tsx ~ line 25 ~ handleSubmit ~ err", err)
     } finally {
@@ -44,22 +42,13 @@ function SignUpPage() {
   return (
     <Box>
       <Container>
-        <Heading>Página de cadastro</Heading>
+        <Heading>Página de login</Heading>
         <Box>
           <Formik
             initialValues={{}}
             onSubmit={handleSubmit}>
             {(props) => (
               <Form>
-                <Field name={FieldNames.Name} validate={validatePresence}>
-                  {({ field, form }: any) => (
-                    <FormControl isInvalid={form.errors.name && form.touched.name}>
-                      <FormLabel htmlFor={FieldNames.Name}>Nome</FormLabel>
-                      <Input {...field} placeholder='Nome' />
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
                 <Field name={FieldNames.Email} validate={validatePresence}>
                   {({ field, form }: any) => (
                     <FormControl isInvalid={form.errors.email && form.touched.email}>
@@ -78,25 +67,13 @@ function SignUpPage() {
                     </FormControl>
                   )}
                 </Field>
-                <Field name={FieldNames.Speciality} validate={validatePresence}>
-                  {({ field, form }: any) => (
-                    <FormControl isInvalid={form.errors.speciality && form.touched.speciality}>
-                      <FormLabel htmlFor={FieldNames.Speciality}>Especialidade</FormLabel>
-                      <Select {...field} placeholder='Selecione uma especialidade'>
-                        <option value='tech'>Tecnologia</option>
-                        <option value='marketing'>Marketing</option>
-                      </Select>
-                      <FormErrorMessage>{form.errors.speciality}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
                 <Button
                   mt={4}
                   colorScheme="teal"
                   type='submit'
                   isLoading={isLoading}
                 >
-                  Cadastrar
+                  Entrar
                 </Button>
                 <Button
                   mt={4}
@@ -104,9 +81,9 @@ function SignUpPage() {
                   type='submit'
                   variant='outline'
                   ml={4}
-                  onClick={() => history.push(routes.login)}
+                  onClick={() => history.push(routes.signup)}
                 >
-                  Já possuo uma conta
+                  Criar conta
                 </Button>
               </Form>
             )}
@@ -117,4 +94,4 @@ function SignUpPage() {
   )
 }
 
-export default SignUpPage;
+export default LoginPage;
