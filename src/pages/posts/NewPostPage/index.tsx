@@ -1,10 +1,9 @@
 import { Box, Text } from "@chakra-ui/layout";
+import { DefaultLayout } from "layouts/DefaultLayout";
 
 function NewPostPage() {
   return (
-    <Box>
-      <Text>NewPostPage</Text>
-    </Box>
+    <Text>NewPostPage</Text>
   )
 }
 

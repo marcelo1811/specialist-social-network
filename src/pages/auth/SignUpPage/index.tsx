@@ -43,7 +43,7 @@ function SignUpPage() {
   }
 
   return (
-    <DefaultLayout>
+    <Box>
       <Container>
         <Heading>Página de cadastro</Heading>
         <Box>
@@ -114,7 +114,7 @@ function SignUpPage() {
           </Formik>
         </Box>
       </Container>  
-    </DefaultLayout>
+    </Box>
   )
 }
 

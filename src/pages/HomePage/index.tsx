@@ -9,12 +9,10 @@ export default function HomePage() {
   }
 
   return (
-    <DefaultLayout>
-      <Box>
-        <Text>HomePage</Text>
-        <Text>Teste</Text>
-        <Button onClick={handleLogout}>Sair</Button>
-      </Box>
-    </DefaultLayout>
+    <Box>
+      <Text>HomePage</Text>
+      <Text>Teste</Text>
+      <Button onClick={handleLogout}>Sair</Button>
+    </Box>
   )
 }
