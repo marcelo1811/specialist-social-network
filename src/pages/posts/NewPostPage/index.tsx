@@ -17,7 +17,7 @@ enum fieldNames {
 };
 
 const maxContentLength = 10; 
-const maxImages = 10;
+const maxImages = 5;
 
 function NewPostPage() {
   const [content, setContent] = useState<string>('');
@@ -54,17 +54,22 @@ function NewPostPage() {
 
   const handleChangePhotos = (fileList: any) => {
     console.log("🚀 ~ file: index.tsx ~ line 52 ~ handleChangePhotos ~ files", fileList);
-    const files = Object.keys(fileList).map((key) => {
+    const newPhotos = Object.keys(fileList).map((key) => {
       const file = fileList[key];
       const url = URL.createObjectURL(file)
-      return {...file, url};
+      return {file, url};
     })
-    if (files.length <= maxImages) {
-      setPhotos(files);
+    if (newPhotos.length <= maxImages) {
+      setPhotos(newPhotos);
     } else {
       setPhotos([]);
       photoRef.current.value = '';
     }
+  }
+
+  const handleRemoveImage = (image: any) => {
+    const newPhotos = photos.filter((photo) => photo.url !== image.url);
+    setPhotos(newPhotos);
   }
 
   return (
@@ -90,9 +95,7 @@ function NewPostPage() {
         </Select>
       </BaseFormControl>
 
-      <Box bg='green'>
-        {photos.length > 0 && <ImagePreviewer images={photos} />}
-      </Box>
+      {photos.length > 0 && <ImagePreviewer images={photos} onRemove={handleRemoveImage} />}
 
       <BaseFormControl label='Photo'>
         <Input

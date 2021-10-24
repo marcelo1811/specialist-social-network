@@ -1,20 +1,28 @@
+import { Button } from "@chakra-ui/button";
+import { useBoolean } from "@chakra-ui/hooks";
 import { Image } from "@chakra-ui/image";
 import { Box, Center, Flex, Text } from "@chakra-ui/layout";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay } from "@chakra-ui/modal";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalOverlay } from "@chakra-ui/modal";
 import { useState } from "react";
 
 interface IImagePreviewerProps {
   images: any;
+  onRemove: Function;
 };
 
-export function ImagePreviewer({ images }: IImagePreviewerProps) {
-  const [showPreview, setShowPreview] = useState<boolean>(false);
+export function ImagePreviewer({ images, onRemove }: IImagePreviewerProps) {
+  const [showPreview, setShowPreview] = useBoolean()
   const [selectedImage, setSelectedImage] = useState<any>(null);
   
   const handleClickImage = (image: any) => {
     setSelectedImage(image);
-    setShowPreview(true);
+    setShowPreview.on();
   };
+
+  const handleRemoveImage = (image: any) => {
+    onRemove(selectedImage)
+    setShowPreview.off();
+  }
 
   return (
     <>
@@ -36,13 +44,18 @@ export function ImagePreviewer({ images }: IImagePreviewerProps) {
       </Box>
 
       {selectedImage && (
-        <Modal isOpen={showPreview} onClose={() => setShowPreview(false)}>
+        <Modal isOpen={showPreview} onClose={() => setShowPreview.off()}>
           <ModalOverlay />
           <ModalContent>
-            <ModalCloseButton />
             <ModalBody>
               <Image src={selectedImage.url}/>
             </ModalBody>
+            <ModalFooter>
+              <Button mr={4} variant="ghost" onClick={() => handleRemoveImage(selectedImage)}>Remover</Button>
+              <Button colorScheme="blue" mr={3} onClick={() => setShowPreview.off()}>
+                Fechar
+              </Button>
+            </ModalFooter>
           </ModalContent>
         </Modal>
       )}
