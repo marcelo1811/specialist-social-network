@@ -30,7 +30,7 @@ interface INavbarProps {
   user?: any;
 };
 
-export function Navbar({ user }: INavbarProps) {
+function Navbar({ user }: INavbarProps) {
   const { isOpen, onToggle } = useDisclosure();
   const history = useHistory();
 
@@ -318,3 +318,5 @@ const NAV_ITEMS: Array<NavItem> = [
   //   href: '#',
   // },
 ];
+
+export default Navbar;

@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/layout";
-import { Navbar } from "components/Navbar";
+import Navbar from "components/Navbar";
 import { auth } from "config/firebase";
 import { ReactNode } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";

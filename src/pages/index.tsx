@@ -1,9 +1,9 @@
 import { Box, Text } from "@chakra-ui/layout";
 
-export function NewPostPage() {
+export default function TemplatePage() {
   return (
     <Box>
-      <Text>NewPostPage</Text>
+      <Text>TemplatePage</Text>
     </Box>
   )
 }

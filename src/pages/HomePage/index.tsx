@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { auth } from "config/firebase";
 import { DefaultLayout } from "layouts/DefaultLayout";
 
-export function HomePage() {
+export default function HomePage() {
   const handleLogout = () => {
     auth.signOut();
   }
