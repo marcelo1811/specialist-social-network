@@ -1,10 +1,12 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormHelperText, FormLabel } from "@chakra-ui/form-control";
+import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
 import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
 import BaseFormControl from "components/BaseFormControl";
+import { ImagePreviewer } from "components/ImagePreviewer";
 import { DefaultLayout } from "layouts/DefaultLayout";
 import { useState } from "react";
 
@@ -19,7 +21,7 @@ const maxContentLength = 10;
 function NewPostPage() {
   const [content, setContent] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
-  const [photo, setPhoto] = useState<string>('');
+  const [photos, setPhotos] = useState<any[]>([]);
   
   const validateContent = (content: string) => {
     if (content.length > maxContentLength) return false;
@@ -48,6 +50,16 @@ function NewPostPage() {
     }
   }
 
+  const handleChangePhotos = (fileList: any) => {
+    console.log("🚀 ~ file: index.tsx ~ line 52 ~ handleChangePhotos ~ files", fileList);
+    const files = Object.keys(fileList).map((key) => {
+      const file = fileList[key];
+      const url = URL.createObjectURL(file)
+      return {...file, url};
+    })
+    setPhotos(files);
+  }
+
   return (
     <Container>
       <Heading>Criar novo post</Heading>
@@ -69,6 +81,11 @@ function NewPostPage() {
           <option>Tecnologia</option>
           <option>Marketing</option>
         </Select>
+      </BaseFormControl>
+
+      {photos.length > 0 && <ImagePreviewer images={photos} />}
+      <BaseFormControl label='Photo'>
+        <Input type='file' height={12} padding='10px' multiple onChange={(e) => handleChangePhotos(e.target.files)} />
       </BaseFormControl>
 
       <Button colorScheme='teal'>
