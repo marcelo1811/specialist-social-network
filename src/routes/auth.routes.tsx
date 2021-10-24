@@ -1,15 +1,18 @@
 import { Text } from "@chakra-ui/layout";
 import LoginPage from "pages/LoginPage";
 import SignUpPage from "pages/SignUpPage";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 
 export function AuthRoutes() {
   return (
     <Switch>
-      <Route path='/signup'>
+      <Route path='/' exact>
+        <Redirect to='login' />
+      </Route>
+      <Route path='/signup' exact>
         <SignUpPage />
       </Route>
-      <Route path='/login'>
+      <Route path='/login' exact>
         <LoginPage />
       </Route>
     </Switch>

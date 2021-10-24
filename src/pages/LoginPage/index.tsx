@@ -17,7 +17,6 @@ enum FieldNames {
 }
 
 function LoginPage() {
-  const [user, loading, error] = useAuthState(auth);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const history = useHistory();
 
