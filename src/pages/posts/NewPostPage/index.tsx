@@ -8,7 +8,7 @@ import { Textarea } from "@chakra-ui/textarea";
 import BaseFormControl from "components/BaseFormControl";
 import { ImagePreviewer } from "components/ImagePreviewer";
 import { DefaultLayout } from "layouts/DefaultLayout";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 enum fieldNames {
   Content = 'content',
@@ -22,6 +22,7 @@ function NewPostPage() {
   const [content, setContent] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
   const [photos, setPhotos] = useState<any[]>([]);
+  const photoRef = useRef<any>();
   
   const validateContent = (content: string) => {
     if (content.length > maxContentLength) return false;
@@ -57,7 +58,11 @@ function NewPostPage() {
       const url = URL.createObjectURL(file)
       return {...file, url};
     })
-    setPhotos(files);
+    if (files.length <= 5) {
+      setPhotos(files);
+    } else {
+      photoRef.current.value = '';
+    }
   }
 
   return (
@@ -85,7 +90,12 @@ function NewPostPage() {
 
       {photos.length > 0 && <ImagePreviewer images={photos} />}
       <BaseFormControl label='Photo'>
-        <Input type='file' height={12} padding='10px' multiple onChange={(e) => handleChangePhotos(e.target.files)} />
+        <Input
+          ref={photoRef}
+          type='file' height={12} padding='10px' multiple
+          onChange={(e) => handleChangePhotos(e.target.files)}
+        />
+        <FormHelperText>Máximo de 5 arquivos</FormHelperText>
       </BaseFormControl>
 
       <Button colorScheme='teal'>
