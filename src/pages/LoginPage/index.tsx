@@ -27,16 +27,14 @@ function LoginPage() {
     setFields[field](e.target.value)
   }
 
-  const handleLogin = () => {
-    console.log({
-      // name,
-      email,
-      speciality,
-    })
-  }
-
   const handleSubmit = (values: any, actions: any) => {
     console.log("🚀 ~ file: index.tsx ~ line 39 ~ handleSubmit ~ values", values)
+  }
+
+  const validatePresence = (value: string) => {
+    if (!value) {
+      return 'Campo obrigatório'
+    }
   }
 
   return (
@@ -49,7 +47,7 @@ function LoginPage() {
             onSubmit={handleSubmit}>
             {(props) => (
               <Form>
-                <Field name={FieldNames.Name}>
+                <Field name={FieldNames.Name} validate={validatePresence}>
                   {({ field, form }: any) => (
                     <FormControl isInvalid={form.errors.name && form.touched.name}>
                       <FormLabel htmlFor={FieldNames.Name}>Nome</FormLabel>
@@ -58,7 +56,7 @@ function LoginPage() {
                     </FormControl>
                   )}
                 </Field>
-                <Field name={FieldNames.Email}>
+                <Field name={FieldNames.Email} validate={validatePresence}>
                   {({ field, form }: any) => (
                     <FormControl isInvalid={form.errors.email && form.touched.email}>
                       <FormLabel htmlFor={FieldNames.Email}>Email</FormLabel>
@@ -67,7 +65,7 @@ function LoginPage() {
                     </FormControl>
                   )}
                 </Field>
-                <Field name={FieldNames.Speciality}>
+                <Field name={FieldNames.Speciality} validate={validatePresence}>
                   {({ field, form }: any) => (
                     <FormControl isInvalid={form.errors.speciality && form.touched.speciality}>
                       <FormLabel htmlFor={FieldNames.Speciality}>Especialidade</FormLabel>
