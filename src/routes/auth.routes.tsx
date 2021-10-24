@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/layout";
-import LoginPage from "pages/LoginPage";
-import SignUpPage from "pages/SignUpPage";
+import LoginPage from "pages/auth/LoginPage";
+import SignUpPage from "pages/auth/SignUpPage";
 import { Redirect, Route, Switch } from "react-router";
 
 export function AuthRoutes() {
