@@ -18,6 +18,4 @@ const Template: ComponentStory<typeof SignUpPage> = (args) => <SignUpPage {...ar
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Default.args = {
-  primary: true,
-  label: 'SignUpPage',
 };

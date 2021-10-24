@@ -10,6 +10,7 @@ import { auth } from "config/firebase";
 import { useState } from "react";
 import { routes } from "constants/routes";
 import { useHistory } from "react-router";
+import { DefaultLayout } from "layouts/DefaultLayout";
 
 enum FieldNames {
   Email = 'email',
@@ -39,7 +40,7 @@ function LoginPage() {
   }
 
   return (
-    <Box>
+    <DefaultLayout>
       <Container>
         <Heading>Página de login</Heading>
         <Box>
@@ -89,7 +90,7 @@ function LoginPage() {
           </Formik>
         </Box>
       </Container>  
-    </Box>
+    </DefaultLayout>
   )
 }
 
